@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '数据中台',
+      title: '教务管理系统',
       logo: logoImg
     }
   }

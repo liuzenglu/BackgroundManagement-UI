@@ -19,7 +19,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="类型" prop="noticeType">
+      <!-- <el-form-item label="类型" prop="noticeType">
         <el-select v-model="queryParams.noticeType" placeholder="公告类型" clearable size="small">
           <el-option
             v-for="dict in typeOptions"
@@ -28,7 +28,7 @@
             :value="dict.dictValue"
           />
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -42,19 +42,17 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:notice:add']"
         >新增</el-button>
       </el-col>
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button
           type="success"
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:notice:edit']"
         >修改</el-button>
-      </el-col>
+      </el-col> -->
       <el-col :span="1.5">
         <el-button
           type="danger"
@@ -62,7 +60,6 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:notice:remove']"
         >删除</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -77,13 +74,13 @@
         prop="noticeTitle"
         :show-overflow-tooltip="true"
       />
-      <el-table-column
+      <!-- <el-table-column
         label="公告类型"
         align="center"
         prop="noticeType"
         :formatter="typeFormat"
         width="100"
-      />
+      /> -->
       <el-table-column
         label="状态"
         align="center"
@@ -104,14 +101,12 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:notice:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:notice:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -134,7 +129,7 @@
               <el-input v-model="form.noticeTitle" placeholder="请输入公告标题" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <!-- <el-col :span="12">
             <el-form-item label="公告类型" prop="noticeType">
               <el-select v-model="form.noticeType" placeholder="请选择">
                 <el-option
@@ -145,7 +140,7 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="24">
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
@@ -209,6 +204,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        noticeType: 1,
         noticeTitle: undefined,
         createBy: undefined,
         status: undefined
@@ -263,7 +259,7 @@ export default {
       this.form = {
         noticeId: undefined,
         noticeTitle: undefined,
-        noticeType: undefined,
+        noticeType: 1,
         noticeContent: undefined,
         status: "0"
       };
@@ -305,6 +301,7 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.noticeType = 1
           if (this.form.noticeId != undefined) {
             updateNotice(this.form).then(response => {
               if (response.code === 200) {
